@@ -12,14 +12,14 @@ app.use(bodyParser.json())
 app.get('/', (req, res) => {
   res.send("Hello World");
 });
-// const employeeRoutes = require('./src/routes/employee.route.js')
-// app.use('/api/v1/employees', employeeRoutes)
-// // listen for requests
-// app.listen(port, () => {
-//   console.log(`Server is listening on port ${port}`);
-// });
+const customerRoutes = require('./src/routes/customer.route.js')
+app.use('/api/v1/customer', customerRoutes)
+
 const laptopRoutes = require('./src/routes/laptop.route.js')
 app.use('/api/v1/laptop', laptopRoutes)
+const orderRoutes = require('./src/routes/order.route.js')
+app.use('/api/v1/order', orderRoutes)
+
 // listen for requests
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
