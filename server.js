@@ -1,43 +1,52 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+require('dotenv').config();
+const express = require("express");
+const favicon = require('serve-favicon');
 
-// create express app
+//const expressLayouts=require("express-ejs-layouts");
 const app = express();
-// Setup server port
-const port = process.env.PORT || 5000;
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }))
-// parse requests of content-type - application/json
-app.use(bodyParser.json());
-app.use(express.json());
+const path = require('path');
 
-// define a root route
-app.get('/', (req, res) => {
-  res.send("Hello World");
+const bodyParser = require('body-parser');
+//const db = require('./config/db.config');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+const port = 3000;
+// app.use(express.static('public'));
+
+const route = require('./src/routes/router');
+app.use('/', route);
+
+
+
+
+
+// New route for the root path
+app.get('/', function(req, res) {
+  res.send('Welcome to my app!');
 });
 
-const customerRoutes = require('./src/routes/customer.route.js')
-app.use('/api/v1/customer', customerRoutes)
-// app.post("/login", customerRoutes.login);
+app.use(express.static( 'public'));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
-const laptopRoutes = require('./src/routes/laptop.route.js')
-app.use('/api/v1/laptop', laptopRoutes)
-const orderRoutes = require('./src/routes/order.route.js');
+app.use(function(req, res, next) {
+  res.status(404);
 
-app.use('/api/v1/order', orderRoutes)
+  // respond with html page
+  if (req.accepts('html')) {
+    res.sendFile(__dirname + '/public/404.html');
+    return;
+  }
 
+  // respond with json
+  if (req.accepts('json')) {
+    res.json({ error: 'Not found' });
+    return;
+  }
 
-// const jwt=require("jsonwebtoken");
-// const createToken= async()=>{
-//   const Token=await jwt.sign({_id:"1"},"helloworldIamkashanandiamyourdadhowareyou",{expiresIn:"1 hour"});
-  
-//   console.log(Token);
-//   const userVer= jwt.verify(Token,"helloworldIamkashanandiamyourdadhowareyou")
-//   console.log(userVer); 
- 
-// }
-// createToken();
-// listen for requests
-app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`);
+  // default to plain-text
+  res.type('txt').send('Error: Requested resource not found');
+});
+
+app.listen(port, function() {
+  console.log("Server listening on port " + port);
 });

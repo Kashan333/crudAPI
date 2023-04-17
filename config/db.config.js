@@ -1,14 +1,9 @@
-'use strict';
-const mysql = require('mysql');
-//local mysql db connection
-const dbConn = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'node_mysql_crud_db'
+const Sequelize = require('sequelize');
+
+// Create a new Sequelize instance
+const sequelize = new Sequelize('techstore', 'root', '', {
+  host: 'localhost',
+  dialect: 'mysql',
+  logging: false,
 });
-dbConn.connect(function(err) {
-  if (err) throw err;
-  console.log("Database Connected!");
-});
-module.exports = dbConn;
+module.exports = sequelize ;

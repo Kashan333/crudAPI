@@ -1,78 +1,43 @@
-'use strict';
-var dbConn = require('./../../config/db.config');
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = require('../../config/db.config');
+const Customer=require('../models/customer.model');
 
-var Order = function(order){
-this.laptop_id = order.laptop_id;
-this.customer_name = order.customer_name;
-this.quantity = order.quantity;
-this.total_price = order.total_price;
-this.order_date = new Date();
-this.status = order.status ? order.status : 1;
-this.created_at = new Date();
-this.updated_at = new Date();
-};
 
-Order.create = function (newOrder, result) {
-dbConn.query("INSERT INTO orders set ?", newOrder, function (err, res) {
-if(err) {
-console.log("error: ", err);
-result(err, null);
-}
-else{
-console.log(res.insertId);
-result(null, res.insertId);
-}
+
+const Order = sequelize.define('Order', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  date: {
+    type: DataTypes.DATE,
+    allowNull: false
+  },
+  status: {
+    type: DataTypes.ENUM('placed', 'shipped', 'delivered', 'canceled'),
+    allowNull: false,
+    defaultValue: 'placed'
+  },
+  total: {
+    type: DataTypes.FLOAT,
+    allowNull: false
+  }
+}, {
+  tableName: 'order',
+  timestamps: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at'
 });
-};
 
-Order.findById = function (id, result) {
-dbConn.query("SELECT * FROM orders WHERE id = ? ", id, function (err, res) {
-if(err) {
-console.log("error: ", err);
-result(err, null);
-}
-else{
-result(null, res);
-}
-});
-};
+Order.belongsTo(Customer, { foreignKey: 'customer_id' });
 
-Order.findAll = function (result) {
-dbConn.query("SELECT * FROM orders", function (err, res) {
-if(err) {
-console.log("error: ", err);
-result(null, err);
-}
-else{
-console.log('orders : ', res);
-result(null, res);
-}
-});
-};
+sequelize.sync()
+  .then(() => {
+    console.log('Order table created successfully!');
+  })
+  .catch((error) => {
+    console.error('Unable to create table: ', error);
+  });
 
-Order.update = function(id, order, result){
-dbConn.query("UPDATE orders SET laptop_id=?, customer_name=?, quantity=?, total_price=?, status=? WHERE id = ?",
-[order.laptop_id, order.customer_name, order.quantity, order.total_price, order.status, id],
-function (err, res) {
-if(err) {
-console.log("error: ", err);
-result(null, err);
-}else{
-result(null, res);
-}
-});
-};
-
-Order.delete = function(id, result){
-dbConn.query("DELETE FROM orders WHERE id = ?", [id], function (err, res) {
-if(err) {
-console.log("error: ", err);
-result(null, err);
-}
-else{
-result(null, res);
-}
-});
-};
-
-module.exports= Order
+module.exports = Order;
