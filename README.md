@@ -1,10 +1,10 @@
 <a name="readme-top"></a>
-## LAPTOPstore | Introduction
+## TECHstore | Introduction
 
-Laptop Store is an online store for purchasing laptops. The website offers a variety of laptops from different brands and models, making it easy for customers to choose the best one for their needs.
+TECHStore is an online store for purchasing laptops. The website offers a variety of laptops from different brands and models, making it easy for customers to choose the best one for their needs.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-## LAPTOPstore | Features
+## TECHstore | Features
 
 Browse available laptops
 View laptop specifications and prices
@@ -18,7 +18,7 @@ Delete laptops (admin only)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## LAPTOPstore | Prerequisites
+## TECHstore | Prerequisites
 
 These are the softwares you need to install before getting started.
 - NodeJS
@@ -28,7 +28,7 @@ These are the softwares you need to install before getting started.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## LAPTOPstore | Installation
+## TECHstore | Installation
 
 1. Clone This Repository
 
@@ -37,7 +37,7 @@ These are the softwares you need to install before getting started.
 2. Install NPM Packages
    ```sh
    npm install 
-## LAPTOPstore | Contributing
+## TECHstore | Contributing
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
 Don't forget to give the project a star! Thanks again!
